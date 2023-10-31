@@ -15,28 +15,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        FIRApp.configure()
+        FirebaseApp.configure()
         
         return true
     }
 
-    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+    private func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
         if let incomingURL = userActivity.webpageURL {
-            let handleLink = FIRDynamicLinks.dynamicLinks()?.handleUniversalLink(incomingURL, completion: { (dynamicLink, error) in
+            let handleLink = DynamicLinks.dynamicLinks().handleUniversalLink(incomingURL, completion: { (dynamicLink, error) in
                 if let dynamicLink = dynamicLink, let _ = dynamicLink.url {
                     self.handleDynamicLink(dynamicLink)
                 } else {
                     // Check for errors
                 }
             })
-            return handleLink!
+            return handleLink
         }
         return false
     }
     
-    func handleDynamicLink(_ dynamicLink: FIRDynamicLink) {
+    func handleDynamicLink(_ dynamicLink: DynamicLink) {
         print("Your Dynamic Link parameter: \(dynamicLink.url!)")
     }
     
